@@ -1,0 +1,1 @@
+{"bench": "tau2", "tier": "canary", "task": "8", "reward_baseline": 0.0, "reward_opt": 1.0, "reward_delta": 1.0, "opt_infra": false, "run_dir": "/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_canary_tau2_proj/.capevolve/run_suite"}

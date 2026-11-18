@@ -1,0 +1,1 @@
+{"path":"splits.json","binary":false,"size":111,"truncated":false,"text":"{\n  \"train\": [\n    \"8\"\n  ],\n  \"val\": [\n    \"8\"\n  ],\n  \"test\": [\n    \"8\"\n  ],\n  \"seed\": 0,\n  \"test_used\": true\n}"}

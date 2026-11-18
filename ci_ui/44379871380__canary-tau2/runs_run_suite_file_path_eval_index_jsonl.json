@@ -1,0 +1,1 @@
+{"path":"eval_index.jsonl","binary":false,"size":266,"truncated":false,"text":"{\"cap_hash\": \"«redacted»\", \"split\": \"val\", \"task\": \"8\", \"trial_idx\": 0, \"tag\": \"seed\", \"k\": 0, \"env_fp\": \"\", \"window_id\": 0, \"reward\": 1.0, \"subset\": false, \"cost\": 0.0, \"tokens\": 83654, \"ts\": 1795029837.931513}\n"}

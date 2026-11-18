@@ -1,0 +1,20 @@
+{
+  "run_id": 35992635753,
+  "run_url": "https://github.com/skillberry-ai/cap-evolve/actions/runs/35992635753",
+  "bench": "tau2",
+  "tier": "smoke",
+  "event": "workflow_dispatch",
+  "source": "manual (remove_ci_all)",
+  "pr": null,
+  "branch": "remove_ci_all",
+  "sha": "b71c7ec56a7309ec7ec90a7ada25baac13e9dc72",
+  "date": "2026-09-24T11:44:53Z",
+  "iterations": 1,
+  "trials": 1,
+  "agent_model": "aws/gpt-oss-120b",
+  "optimizer_model": "claude-opus-4-8",
+  "gate_k_se": 1.0,
+  "algorithm": "hill-climb-all",
+  "warm_seed": false,
+  "conclusion": "success"
+}

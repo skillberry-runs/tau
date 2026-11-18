@@ -1,0 +1,4 @@
+{"phase": "baseline", "iter": null, "candidate": "seed", "accepted": null, "reward": 0.26666666666666666, "optimizer_usd": 0.0, "optimizer_seconds": 0.0, "eval_usd": 0.0, "eval_seconds": 435.35}
+{"phase": "iterate", "iter": 1, "candidate": "r1_report_calc", "accepted": false, "reward": 0.36666666666666664, "optimizer_usd": 0.0, "optimizer_seconds": null, "eval_usd": null, "eval_seconds": null}
+{"phase": "iterate", "iter": 2, "candidate": "r2_passenger_complete", "accepted": false, "reward": 0.26666666666666666, "optimizer_usd": 0.0, "optimizer_seconds": null, "eval_usd": null, "eval_seconds": null}
+{"phase": "finalize", "iter": null, "candidate": "seed", "accepted": null, "reward": 0.2333333333333333, "optimizer_usd": 0.0, "optimizer_seconds": 0.0, "eval_usd": 0.0, "eval_seconds": 89.53}

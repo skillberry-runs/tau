@@ -1,0 +1,258 @@
+diff --git a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/policy/policy.md b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/policy/policy.md
+index 8098be7..018b0d4 100644
+--- a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/policy/policy.md
++++ b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/policy/policy.md
+@@ -4,7 +4,9 @@ The current time is 2024-05-15 15:00:00 EST.
+ 
+ As an airline agent, you can help users **book**, **modify**, or **cancel** flight reservations. You also handle **refunds and compensation**.
+ 
+-Before taking any actions that update the booking database (booking, modifying flights, editing baggage, changing cabin class, or updating passenger information), you must list the action details and obtain explicit user confirmation (yes) to proceed.
++Before taking any actions that update the booking database (booking, modifying flights, editing baggage, changing cabin class, or updating passenger information), you must list the action details and obtain explicit user confirmation to proceed.
++
++**A specific, complete instruction from the user IS that confirmation — act on it in the same turn.** When the user has already spelled out exactly what to change AND supplied everything the change needs (for a paid change, the payment method to use; for a rename, the new name), you have the user's explicit authorization. Do NOT spend a turn re-listing the change and waiting for a separate "yes": your very next action in that same turn must be the write tool call. The user very often replies "yes" and ends the conversation in the same breath, so if you defer the write to a later turn you will never get the turn to make it, and the change is lost. You may briefly say what you are doing, but you MUST emit the tool call in the same turn — never end your turn with only a confirmation question when you already have everything needed to act. (If information is still missing or the user is only asking about cost/options, keep gathering and confirming as normal.)
+ 
+ You should not provide any information, knowledge, or procedures not provided by the user or available tools, or give subjective recommendations or comments.
+ 
+@@ -106,11 +108,71 @@ First, the agent must obtain the user id and reservation id.
+ - The user must provide their user id. 
+ - If the user doesn't know their reservation id, the agent should help locate it using available tools.
+ 
++### How to make the change (follow these steps in order)
++
++There is ONE tool for every reservation modification: `update_reservation`. It changes
++flights, cabin class, passengers, and baggage together in a single call. Use it like this:
++
++1. Call `get_reservation_details` to read the current reservation.
++2. List EVERY change the user asked for. A single request often contains more than one
++   change (for example: rename a passenger AND add bags AND change cabin). Write down all
++   of them before you act.
++3. Verify each change is allowed by the rules below.
++4. Show the user all the changes together, with any cost, and get their explicit `yes`.
++   The user may accept some changes and drop others once they see the cost or a rule.
++   The set you apply is the set the user CONFIRMS in this step — no more, no less.
++5. Apply every CONFIRMED change with ONE `update_reservation` call, setting a parameter for
++   EACH confirmed change and leaving the other parameters null. Do NOT make separate partial
++   changes, and do NOT stop after applying only some of the confirmed changes.
++
++**Apply every change the user CONFIRMED — no more, no less.**
++- Do not stop after applying only some confirmed changes. Silently dropping a confirmed
++  change (for example, adding the bags but forgetting the confirmed passenger rename) is a
++  failure.
++- Equally, do NOT force through a change the user has DECLINED or that a rule forbids. If
++  the user looks at the cost or a constraint and says "skip the upgrade, just do the bags,"
++  then you apply ONLY the bags. Never keep pushing a declined change, and never transfer to
++  a human just because one requested change was dropped — carry out the rest.
++
++**Act decisively; do not stall.** Once you have the reservation details and the user's
++`yes` — or a specific, complete instruction that already spells out the change and any
++payment method — your very next step is the `update_reservation` call, in that same turn.
++Do not re-ask a question you can already answer, do not restate the plan again in prose and
++then wait, and do not offer a human transfer for a change you can make yourself. A plan
++written in words does nothing until the tool is called, and if you end your turn with only a
++summary the user will often say "yes" and close the chat before you ever get to write.
++
++**Worked example (specific directive with payment — write immediately).** After reading the
++reservation you show the current state; the user replies: "Change passenger 2 (Liam Lee) to
++Omar Rossi, and use gift_card_8190333 to cover the $150 for 3 extra bags." That message is a
++complete, authorized instruction. Do NOT answer with another summary and wait for a separate
++"yes" — in this same turn make the call:
++`update_reservation(reservation_id="UM3OG5", passengers=[<full list with passenger 2 = Omar
++Rossi>], total_baggages=<new total>, payment_id="gift_card_8190333")`.
++
++**Worked example (all changes confirmed).** The user says: "Change passenger 2 from Mei Lee
++to Mei Garcia and add 3 checked bags to reservation 3RK2T9." After reading the reservation
++and getting a `yes`, make ONE call:
++`update_reservation(reservation_id="3RK2T9", passengers=[<full passenger list with Mei
++Garcia>], total_baggages=3, nonfree_baggages=<paid bags after the free allowance>)`.
++
++**Worked example (user drops a change after seeing cost).** The user says: "Upgrade both of
++us to business and add 2 bags, budget $650." You read the reservation, compute the upgrade
++cost, and it is over $650, so the user replies: "Then skip the upgrade — just add the 2 bags."
++The confirmed set is now only the bags, so make ONE call with the cabin left null:
++`update_reservation(reservation_id="YAX4DR", total_baggages=2, nonfree_baggages=<paid bags
++after the free allowance>)`. Do not upgrade the cabin, and do not transfer — just add the bags.
++
++### Rules that must hold before you call `update_reservation`
++
++The tool does not check these for you, so you must make sure they apply first.
++
+ Change flights: 
+ - Basic economy flights cannot be modified.
+ - Other reservations can be modified without changing the origin, destination, and trip type.
+-- Some flight segments can be kept, but their prices will not be updated based on the current price.
+-- The API does not check these for the agent, so the agent must make sure the rules apply before calling the API!
++- Pass the COMPLETE new flight list in `flights` — include every segment, even the ones
++  that are not changing. Some flight segments can be kept, but their prices will not be
++  updated based on the current price.
+ 
+ Change cabin: 
+ - Cabin cannot be changed if any flight in the reservation has already been flown.
+@@ -122,13 +184,17 @@ Change cabin:
+ Change baggage and insurance: 
+ - The user can add but not remove checked bags.
+ - The user cannot add insurance after initial booking.
++- `total_baggages` is the new total number of bags; `nonfree_baggages` is how many of them
++  are paid after the free allowance for the user's membership + cabin.
+ 
+ Change passengers:
+ - The user can modify passengers but cannot modify the number of passengers.
+ - Even a human agent cannot modify the number of passengers.
++- Pass the COMPLETE passenger list in `passengers`, with the same count as the current
++  reservation.
+ 
+ Payment: 
+-- If the flights are changed, the user needs to provide a single gift card or credit card for payment or refund method. The payment method must already be in user profile for safety reasons.
++- If the flights or cabin are changed, or paid bags are added, the user needs to provide a single gift card or credit card as the `payment_id` for payment or refund. The payment method must already be in user profile for safety reasons. A pure passenger rename costs nothing and needs no payment.
+ 
+ ## Cancel flight
+ 
+diff --git a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/__pycache__/tools.cpython-312.pyc b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/tools/__pycache__/tools.cpython-312.pyc
+index d6f46cb..9e70c30 100644
+Binary files a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/__pycache__/tools.cpython-312.pyc and b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/tools/__pycache__/tools.cpython-312.pyc differ
+diff --git a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/tools.py b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/tools/tools.py
+index bf8c625..3e8bc72 100644
+--- a/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/tools.py
++++ b/vol/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand4/tools/tools.py
+@@ -42,9 +42,19 @@ from tau2.domains.airline.data_model import (
+ from tau2.domains.airline.tools import AirlineTools as _BaseAirlineTools
+ from tau2.environment.toolkit import ToolType, is_tool
+ 
+-# Names of tools to REMOVE from the exposed agent toolset. Empty by default
+-# (the seed exposes exactly tau2's default airline tools, unchanged).
+-REMOVE_TOOLS: set[str] = set()
++# Names of tools to REMOVE from the exposed agent toolset.
++#
++# The three raw per-field update primitives are HIDDEN so the only way to modify a
++# reservation is the single atomic ``update_reservation`` tool below. Traces show the
++# mid-tier agent applying ONE update (e.g. baggages) and then declaring "no other changes
++# were needed", silently dropping the passenger rename and/or cabin change the user also
++# asked for. Collapsing every field into one call makes "apply all requested changes"
++# un-skippable: there is no single-field write left to stop after.
++REMOVE_TOOLS: set[str] = {
++    "update_reservation_flights",
++    "update_reservation_passengers",
++    "update_reservation_baggages",
++}
+ 
+ 
+ class AirlineTools(_BaseAirlineTools):
+@@ -575,6 +585,119 @@ class AirlineTools(_BaseAirlineTools):
+         reservation.passengers = deepcopy(passengers)
+         return reservation
+ 
++    @is_tool(ToolType.WRITE)
++    def update_reservation(
++        self,
++        reservation_id: str,
++        cabin: Optional[CabinClass] = None,
++        flights: Optional[List[FlightInfo | dict]] = None,
++        passengers: Optional[List[Passenger | dict]] = None,
++        total_baggages: Optional[int] = None,
++        nonfree_baggages: Optional[int] = None,
++        payment_id: Optional[str] = None,
++    ) -> Reservation:
++        """
++        Apply EVERY requested change to an existing reservation in ONE atomic call.
++
++        This is the ONLY tool for modifying a reservation (changing flights, changing
++        cabin class, renaming/editing passengers, or adding checked bags). Set ONLY the
++        parameters for the fields the user wants to change and leave the rest as null;
++        the untouched fields are preserved. All the changes you pass are applied together
++        in a single call, in the order flights/cabin -> passengers -> baggages.
++
++        WHEN THE USER ASKS FOR SEVERAL CHANGES AT ONCE, pass them all in ONE call. Do not
++        make one change and stop: every field the user asked about must be filled in this
++        single call.
++
++        Args:
++            reservation_id: The reservation ID to modify, such as 'ZFA04Y'.
++            cabin: New cabin class for the WHOLE reservation, one of 'basic_economy',
++                'economy', or 'business'. Leave null to keep the current cabin. Set this
++                only when the user asks to change cabin class.
++            flights: The COMPLETE new list of flight segments for the reservation, as an
++                array of objects like {"flight_number": "HAT001", "date": "2024-05-20"}.
++                You must include EVERY segment of the reservation, even segments that are
++                not changing. Leave null when the flights are not changing. Example for a
++                round trip: [{"flight_number": "HAT003", "date": "2024-05-19"},
++                {"flight_number": "HAT290", "date": "2024-05-20"}].
++            passengers: The COMPLETE new list of passengers, as an array of objects like
++                {"first_name": "Mei", "last_name": "Garcia", "dob": "1989-12-13"}. The
++                number of passengers must stay the same as the current reservation (you
++                may rename or edit a passenger, never add or drop one). Leave null when no
++                passenger is changing. Example (renaming passenger 2 of 2):
++                [{"first_name": "Anya", "last_name": "Garcia", "dob": "1992-11-12"},
++                {"first_name": "Mei", "last_name": "Garcia", "dob": "1989-12-13"}].
++            total_baggages: The new TOTAL number of checked bags on the reservation. Leave
++                null when baggage is not changing. Bags can only be added, never removed.
++            nonfree_baggages: The number of those bags that are PAID (not covered by the
++                free allowance). Compute it from the membership + cabin free allowance in
++                the policy. Leave null when baggage is not changing; it then stays as-is.
++            payment_id: A single payment id already on the user's profile (such as
++                'credit_card_7815826', 'gift_card_7815826', or 'certificate_7815826') used
++                to pay any price difference from a flight/cabin change or from paid bags.
++                Required whenever flights, cabin, or paid baggage change; leave null for a
++                pure passenger rename (which never costs money).
++
++        Returns:
++            The updated reservation reflecting ALL applied changes.
++
++        Raises:
++            ValueError: If the reservation or user is not found, a payment method is not on
++                the profile, the number of passengers does not match, or a flight/seat is
++                unavailable.
++        """
++        reservation = self._get_reservation(reservation_id)
++
++        # 1) flights and/or cabin change (delegates to the validated primitive).
++        need_flight_update = flights is not None or (
++            cabin is not None and cabin != reservation.cabin
++        )
++        if need_flight_update:
++            new_cabin = cabin if cabin is not None else reservation.cabin
++            if flights is None:
++                # Cabin-only change: keep the exact same flight segments.
++                flights = [
++                    {"flight_number": f.flight_number, "date": f.date}
++                    for f in reservation.flights
++                ]
++            self.update_reservation_flights(
++                reservation_id=reservation_id,
++                cabin=new_cabin,
++                flights=flights,
++                payment_id=payment_id,
++            )
++
++        # 2) passenger change.
++        if passengers is not None:
++            self.update_reservation_passengers(
++                reservation_id=reservation_id,
++                passengers=passengers,
++            )
++
++        # 3) baggage change.
++        if total_baggages is not None:
++            new_nonfree = (
++                nonfree_baggages
++                if nonfree_baggages is not None
++                else reservation.nonfree_baggages
++            )
++            paid_delta = 50 * max(0, new_nonfree - reservation.nonfree_baggages)
++            if paid_delta == 0 and payment_id is None:
++                # The added bags are all within the free allowance, so nothing is
++                # charged and no payment method is needed. Apply the change directly
++                # (the primitive would still demand a payment_id even for a $0 change).
++                reservation.total_baggages = total_baggages
++                reservation.nonfree_baggages = new_nonfree
++            else:
++                self.update_reservation_baggages(
++                    reservation_id=reservation_id,
++                    total_baggages=total_baggages,
++                    nonfree_baggages=new_nonfree,
++                    payment_id=payment_id,
++                )
++
++        return self._get_reservation(reservation_id)
++
+     @is_tool(ToolType.READ)
+     def get_flight_status(self, flight_number: str, date: str) -> str:
+         """

@@ -1,0 +1,20 @@
+{
+  "run_id": 32722203848,
+  "run_url": "https://github.com/skillberry-ai/cap-evolve/actions/runs/32722203848",
+  "bench": "tau2",
+  "tier": "smoke",
+  "event": "workflow_dispatch",
+  "source": "manual (fix/agent-optimize-context)",
+  "pr": null,
+  "branch": "fix/agent-optimize-context",
+  "sha": "bb8adafb6a298c8b7a00d05828565b6705f4f5f6",
+  "date": "2026-08-24T12:36:47Z",
+  "iterations": 3,
+  "trials": 3,
+  "agent_model": "aws/gpt-oss-120b",
+  "optimizer_model": "claude-opus-4-8",
+  "gate_k_se": 1.0,
+  "algorithm": "agent-optimize",
+  "warm_seed": false,
+  "conclusion": "success"
+}

@@ -1,0 +1,1315 @@
+{
+  "test": {
+    "split": "test",
+    "reward": 0.6666666666666666,
+    "stderr": 0.1337954953199144,
+    "pass_k": {
+      "1": 0.6666666666666666,
+      "2": 0.5
+    },
+    "pass_at_k": {
+      "1": 0.6666666666666667,
+      "2": 0.8333333333333334
+    },
+    "per_task": [
+      {
+        "task_id": "8",
+        "reward": 0.3333333333333333,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. All checks passed.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT289', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'source': 'certificate', 'id': 'certificate_8045380', 'amount': 322.0}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'date': '2024-05-26', 'flight_number': 'HAT289'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'amount': 161.0, 'source': 'certificate', 'id': 'certificate_8045380'}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "11",
+        "reward": 1.0,
+        "feedback": "Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "12",
+        "reward": 1.0,
+        "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "17",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "19",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "22",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          0.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "23",
+        "reward": 0.0,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state, but NO gold action mismatched \u2014 so this is not a wrong argument value. The divergence is an EXTRA or DUPLICATED write, or a write side effect: every successful update appends a charge to `payment_history`, and re-issuing a corrected write does not undo the first one. The 4 write(s) you performed, in order: cancel_reservation(reservation_id='K1NW8N'); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0). Check whether one of them should not have happened at all, or happened twice.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 1x - you stopped before making all the required calls.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls.",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "25",
+        "reward": 1.0,
+        "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'date': '2024-05-17'}, {'flight_number': 'HAT251', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "37",
+        "reward": 0.3333333333333333,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          0.0,
+          0.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "40",
+        "reward": 1.0,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_passengers: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      }
+    ],
+    "cost_usd": 0.0,
+    "tokens": 2294595,
+    "seconds": 302.203467130661,
+    "cost_source": {
+      "tau2": 30,
+      "usersim_unpriced": 30
+    },
+    "n_tasks": 10,
+    "n_scored": 10
+  },
+  "best_id": "cand_0003",
+  "test_baseline": {
+    "split": "test",
+    "reward": 0.4333333333333333,
+    "stderr": 0.13833221775543036,
+    "pass_k": {
+      "1": 0.4333333333333333,
+      "2": 0.2333333333333333
+    },
+    "pass_at_k": {
+      "1": 0.4333333333333334,
+      "2": 0.6333333333333334
+    },
+    "per_task": [
+      {
+        "task_id": "8",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='H8Q05L'; book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT289', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 161}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05', 'seat_preference': 'aisle'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12', 'seat_preference': 'middle'}], payment_methods=[{'payment_id': 'certificate_8045380', 'type': 'certificate', 'amount': 322}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 174}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05', 'seat_preference': 'aisle'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12', 'seat_preference': 'middle'}], payment_methods=[{'payment_id': 'certificate_8045380', 'type': 'certificate', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='S61CZX'; book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 174}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "11",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19', 'price': 53}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20', 'price': 77}], payment_id='gift_card_1642017', reservation_id='GV1N64'.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "12",
+        "reward": 1.0,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; calculate: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "17",
+        "reward": 0.0,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_baggages: agent used nonfree_baggages=1, payment_id='gift_card_8190333', reservation_id='FQ8APE', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "19",
+        "reward": 0.3333333333333333,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. All checks passed.\n\n[trial 1 reward 0.000, trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "22",
+        "reward": 0.0,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1989-08-12'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "23",
+        "reward": 0.3333333333333333,
+        "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls. 3 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "25",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'destination': 'PHX', 'date': '2024-05-17', 'flight_number': 'HAT097', 'price': 158, 'origin': 'DTW'}, {'destination': 'SEA', 'date': '2024-05-17', 'flight_number': 'HAT251', 'price': 141, 'origin': 'PHX'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'type': 'gift_card', 'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'type': 'credit_card', 'payment_id': 'credit_card_3563913', 'amount': 247.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128}, {'payment_id': 'credit_card_3563913', 'amount': 247}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "37",
+        "reward": 0.0,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 430}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 412}], payment_id='credit_card_4959530', reservation_id='M20IZO'.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 430}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 412}], payment_id='credit_card_9074831', reservation_id='M20IZO'.",
+        "n": 3,
+        "stderr": 0.0,
+        "trial_rewards": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      },
+      {
+        "task_id": "40",
+        "reward": 0.6666666666666666,
+        "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+        "n": 3,
+        "stderr": 0.33333333333333337,
+        "trial_rewards": [
+          0.0,
+          1.0,
+          1.0
+        ],
+        "raw": {
+          "errored": false,
+          "errored_trials": 0,
+          "valid_trials": 3,
+          "n_trials": 3,
+          "cost_usd": 0.0
+        },
+        "metrics": []
+      }
+    ],
+    "cost_usd": 0.0,
+    "tokens": 1598713,
+    "seconds": 454.8474757671356,
+    "cost_source": {
+      "tau2": 30,
+      "usersim_unpriced": 30
+    },
+    "n_tasks": 10,
+    "n_scored": 10
+  },
+  "baseline_id": "seed",
+  "test_delta": 0.233333,
+  "best": {
+    "train": {
+      "status": "skipped: train ids are identical to val \u2014 see the val entry"
+    },
+    "val": {
+      "split": "val",
+      "reward": 0.7,
+      "stderr": 0.12862041003100252,
+      "pass_k": {
+        "1": 0.7,
+        "2": 0.5333333333333333
+      },
+      "pass_at_k": {
+        "1": 0.7,
+        "2": 0.8666666666666666
+      },
+      "per_task": [
+        {
+          "task_id": "11",
+          "reward": 1.0,
+          "feedback": "Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "12",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; calculate: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "17",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "19",
+          "reward": 1.0,
+          "feedback": "Task reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "22",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "23",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 1x - you stopped before making all the required calls.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 1x - you stopped before making all the required calls. 2 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. 2 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "25",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT169', 'date': '2024-05-17'}, {'flight_number': 'HAT069', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'source': 'gift_card', 'id': 'gift_card_8516878', 'amount': 128.0}, {'source': 'credit_card', 'id': 'credit_card_3563913', 'amount': 145.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'date': '2024-05-17'}, {'flight_number': 'HAT251', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'date': '2024-05-17'}, {'flight_number': 'HAT251', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128}, {'payment_id': 'credit_card_3563913', 'amount': 171}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "37",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='IFOYYZ'; search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 2x; update_reservation_flights: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "40",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_passengers: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "8",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380'}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'source': 'certificate', 'id': 'certificate_8045380'}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 174}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        }
+      ],
+      "cost_usd": 0.0,
+      "tokens": 0,
+      "seconds": 0.0,
+      "cost_source": {},
+      "n_tasks": 10,
+      "n_scored": 10
+    },
+    "test": {
+      "split": "test",
+      "reward": 0.6666666666666666,
+      "stderr": 0.1337954953199144,
+      "pass_k": {
+        "1": 0.6666666666666666,
+        "2": 0.5
+      },
+      "pass_at_k": {
+        "1": 0.6666666666666667,
+        "2": 0.8333333333333334
+      },
+      "per_task": [
+        {
+          "task_id": "8",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. All checks passed.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT289', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'source': 'certificate', 'id': 'certificate_8045380', 'amount': 322.0}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'date': '2024-05-26', 'flight_number': 'HAT289'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'amount': 161.0, 'source': 'certificate', 'id': 'certificate_8045380'}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "11",
+          "reward": 1.0,
+          "feedback": "Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "12",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "17",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "19",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "22",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "23",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state, but NO gold action mismatched \u2014 so this is not a wrong argument value. The divergence is an EXTRA or DUPLICATED write, or a write side effect: every successful update appends a charge to `payment_history`, and re-issuing a corrected write does not undo the first one. The 4 write(s) you performed, in order: cancel_reservation(reservation_id='K1NW8N'); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0); book_reservation(cabin='business', insurance='no', nonfree_baggages=0, total_baggages=0). Check whether one of them should not have happened at all, or happened twice.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 1x - you stopped before making all the required calls.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "25",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'date': '2024-05-17'}, {'flight_number': 'HAT251', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "37",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "40",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_passengers: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        }
+      ],
+      "cost_usd": 0.0,
+      "tokens": 2294595,
+      "seconds": 302.203467130661,
+      "cost_source": {
+        "tau2": 30,
+        "usersim_unpriced": 30
+      },
+      "n_tasks": 10,
+      "n_scored": 10
+    }
+  },
+  "seed": {
+    "train": {
+      "status": "skipped: train ids are identical to val \u2014 see the val entry"
+    },
+    "val": {
+      "split": "val",
+      "reward": 0.3333333333333333,
+      "stderr": 0.1286204100310025,
+      "pass_k": {
+        "1": 0.3333333333333333,
+        "2": 0.13333333333333333
+      },
+      "pass_at_k": {
+        "1": 0.33333333333333337,
+        "2": 0.5333333333333334
+      },
+      "per_task": [
+        {
+          "task_id": "11",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "12",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "17",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1989-08-12'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "19",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000, trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).\n\n[trial 1 errored]\nRollout did not complete for an infrastructure reason (tau2 user-simulator emitted ###STOP### alongside leaked reasoning that explicitly planned to continue the conversation (documented artifact, docs/TAU2_SUMMARY.md row 7) \u2014 treated as uncontrollable noise, not an agent policy/tool failure.). This is uncontrollable noise, not an agent policy/tool failure; do not optimize against it.",
+          "n": 2,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "errored": true,
+            "errored_trials": 1,
+            "valid_trials": 2,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "22",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000, trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "23",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset. 2 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 4x - you are calling it too many times, on the wrong subset.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "25",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 247.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "37",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly).\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT057', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 342}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 412}], payment_id='credit_card_9074831', reservation_id='M20IZO'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22'}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22'}], payment_id='credit_card_9074831', reservation_id='M20IZO'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "40",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 0.000, trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly).\n\n[trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "8",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_user_details: was never called (or not called correctly); get_reservation_details: was never called (or not called correctly); book_reservation: was never called (or not called correctly).\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'date': '2024-05-26', 'destination': 'PHL', 'scheduled_arrival_time_est': '21:00:00', 'flight_number': 'HAT271', 'origin': 'ORD', 'scheduled_departure_time_est': '19:00:00'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'last_name': 'Silva', 'first_name': 'Sophia', 'seat_preference': 'aisle', 'dob': '1957-10-05'}, {'last_name': 'Smith', 'first_name': 'Kevin', 'seat_preference': 'middle', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'date': '2024-05-26', 'destination': 'PHL', 'arrival_time_est': '21:00:00', 'flight_number': 'HAT271', 'departure_time_est': '19:00:00', 'origin': 'ORD'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'last_name': 'Silva', 'first_name': 'Sophia', 'seat_preference': 'aisle', 'dob': '1957-10-05'}, {'last_name': 'Smith', 'first_name': 'Kevin', 'seat_preference': 'middle', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "n_trials": 3,
+            "valid_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        }
+      ],
+      "cost_usd": 0.0,
+      "tokens": 0,
+      "seconds": 0.0,
+      "cost_source": {},
+      "n_tasks": 10,
+      "n_scored": 10
+    },
+    "test": {
+      "split": "test",
+      "reward": 0.4333333333333333,
+      "stderr": 0.13833221775543036,
+      "pass_k": {
+        "1": 0.4333333333333333,
+        "2": 0.2333333333333333
+      },
+      "pass_at_k": {
+        "1": 0.4333333333333334,
+        "2": 0.6333333333333334
+      },
+      "per_task": [
+        {
+          "task_id": "8",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='H8Q05L'; book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT289', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 161}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05', 'seat_preference': 'aisle'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12', 'seat_preference': 'middle'}], payment_methods=[{'payment_id': 'certificate_8045380', 'type': 'certificate', 'amount': 322}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 174}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05', 'seat_preference': 'aisle'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12', 'seat_preference': 'middle'}], payment_methods=[{'payment_id': 'certificate_8045380', 'type': 'certificate', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.\n\n[trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='S61CZX'; book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 174}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "11",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'.\n\n[trial 1 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19', 'price': 53}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20', 'price': 77}], payment_id='gift_card_1642017', reservation_id='GV1N64'.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "12",
+          "reward": 1.0,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; calculate: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): calculate: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "17",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_baggages: agent used nonfree_baggages=1, payment_id='gift_card_8190333', reservation_id='FQ8APE', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "19",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. All checks passed.\n\n[trial 1 reward 0.000, trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "22",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1989-08-12'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly); update_reservation_baggages: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: was never called (or not called correctly); update_reservation_passengers: agent used passengers=[{'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}, {'first_name': 'Omar', 'last_name': 'Rossi', 'dob': '1970-06-06'}], reservation_id='UM3OG5'; update_reservation_baggages: agent used nonfree_baggages=0, payment_id='gift_card_8190333', reservation_id='UM3OG5', total_baggages=3.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "23",
+          "reward": 0.3333333333333333,
+          "feedback": "[trial 0 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls. 3 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "25",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'destination': 'PHX', 'date': '2024-05-17', 'flight_number': 'HAT097', 'price': 158, 'origin': 'DTW'}, {'destination': 'SEA', 'date': '2024-05-17', 'flight_number': 'HAT251', 'price': 141, 'origin': 'PHX'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'type': 'gift_card', 'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'type': 'credit_card', 'payment_id': 'credit_card_3563913', 'amount': 247.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128}, {'payment_id': 'credit_card_3563913', 'amount': 247}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "37",
+          "reward": 0.0,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 430}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 412}], payment_id='credit_card_4959530', reservation_id='M20IZO'.\n\n[trial 1 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).\n\n[trial 2 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 430}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 412}], payment_id='credit_card_9074831', reservation_id='M20IZO'.",
+          "n": 3,
+          "stderr": 0.0,
+          "trial_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        },
+        {
+          "task_id": "40",
+          "reward": 0.6666666666666666,
+          "feedback": "[trial 0 reward 0.000]\nTask reward: 0.000. Database state does NOT match the expected final state \u2014 a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); update_reservation_passengers: was never called (or not called correctly).\n\n[trial 1 reward 1.000, trial 2 reward 1.000]\nTask reward: 1.000. All checks passed.",
+          "n": 3,
+          "stderr": 0.33333333333333337,
+          "trial_rewards": [
+            0.0,
+            1.0,
+            1.0
+          ],
+          "raw": {
+            "errored": false,
+            "errored_trials": 0,
+            "valid_trials": 3,
+            "n_trials": 3,
+            "cost_usd": 0.0
+          },
+          "metrics": []
+        }
+      ],
+      "cost_usd": 0.0,
+      "tokens": 1598713,
+      "seconds": 454.8474757671356,
+      "cost_source": {
+        "tau2": 30,
+        "usersim_unpriced": 30
+      },
+      "n_tasks": 10,
+      "n_scored": 10
+    }
+  },
+  "train_equals_val": true
+}

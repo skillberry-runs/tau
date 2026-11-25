@@ -1,0 +1,41 @@
+capabilities:       [system-prompt, tools]
+capability_path:    seed_capability
+optimizer_skill:    claude-code
+optimizer_model:    claude-opus-4-8
+target_model:       aws/gpt-oss-120b
+optimizer_max_turns:    80
+optimizer_usd_per_iter: 50
+# Set (to an ABSOLUTE path) only by an arm that ships its own optimizer instructions;
+# empty is falsy in core, which then uses its default optimizer/INSTRUCTIONS.md lookup —
+# so this line is a no-op for every other benchmark. Absolute on purpose: a RELATIVE value
+# resolves against different cwds in check vs run and can silently fall back to the generic
+# template (issue #252), which would erase an arm's instructions with no error.
+optimizer_instructions_file: ""
+algorithm_skill:    hill-climb
+algorithm_focus:    all
+# Per-benchmark spec keys, set by the case block above and EMPTY for every benchmark that does
+# not need them (an empty expansion leaves a blank line, which the reader ignores). This is how
+# a benchmark whose delivery path is not the in-process default declares it — the skillberry
+# tau2 arms use it for intervention, skill_name, protected_paths, capability_sources, actions
+# and an absolute runner_repo_path. Putting them here rather than in each case's own heredoc
+# keeps ONE spec template, so a key added for every benchmark cannot miss one arm.
+# NB a comment in here is still SHELL TEXT, not prose: this heredoc's delimiter is unquoted so
+# that variables expand, which means a backtick runs a command and a dollar sign dereferences a
+# name even inside a '#' line. Both were introduced here and both misfired — the key names
+# written in backticks made bash try to execute them ("intervention: command not found", six
+# times), and a literal dollar-VAR tripped 'set -u' as an unbound variable. Keep comment lines
+# in this block plain: no backticks, no dollar signs.
+
+dataset_source:     adapter
+split_ids_file:     "inputs/split_ids.json"
+
+# With an explicit split_ids_file the partition is fixed, so split_seed only varies the
+# per-trial ROLLOUT seeding (harness base_seed reads splits.seed). That is what makes
+# ">=3 seeds" possible on one committed split: dispatch the same run with 42/43/44.
+split_seed:         44
+num_trials:         3
+gate_mode:          paired
+gate_k_se:          0.2
+max_iterations:     3
+stall:              3
+store:              git

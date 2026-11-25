@@ -1,0 +1,1 @@
+[{"hash":"0f655c1","subject":"seed: baseline candidate","iter":0},{"hash":"d787099","subject":"iter 1: reject candidate cand_0001 (val 0.300, Δ -0.100)","iter":1},{"hash":"1d37bc0","subject":"iter 2: ACCEPT candidate cand_0002 (val 0.617, Δ +0.217)","iter":2},{"hash":"37f9794","subject":"iter 3: ACCEPT candidate cand_0003 (val 0.717, Δ +0.100)","iter":3}]

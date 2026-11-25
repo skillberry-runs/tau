@@ -1,0 +1,74 @@
+{
+  "candidate": "cand_0003",
+  "parent": "cand_0002",
+  "parent_val": 0.617,
+  "reward_model": "DB x COMMUNICATE (product; either 0 zeroes the task)",
+  "clusters": [
+    {
+      "id": "communicate-exact-dollar",
+      "tag": "KNOWLEDGE",
+      "tasks": ["11"],
+      "trials_failing": "11: 2/3",
+      "root_cause": "The exact refund (5244) is already present in update_reservation_flights' return payment_history, but the weak model states its stale pre-confirmation estimate (1748 = per-passenger, forgot x3 passengers) instead of reading the return.",
+      "recoverable": true,
+      "edit": "E1 enriched returns + E2 policy section 4",
+      "db_safe": true
+    },
+    {
+      "id": "false-pushback-and-over-caution",
+      "tag": "BEHAVIORAL",
+      "tasks": ["25", "37"],
+      "trials_failing": "25 t2; 37 t0, t1",
+      "root_cause": "25 t2 cancelled a correct booking after a FALSE price complaint; 37 t0 transferred instead of performing the permitted M20IZO upgrade; 37 t1 sent an unsolicited certificate and changed flights without search_direct_flight.",
+      "recoverable": true,
+      "edit": "E3 policy sections 7 and 8",
+      "db_safe": true
+    },
+    {
+      "id": "uncontrollable-user-stop",
+      "tag": "UNCONTROLLABLE",
+      "tasks": ["19", "40"],
+      "trials_failing": "19 t1; 40 t1",
+      "root_cause": "User-sim appends ###STOP### inside its confirmation turn; episode ends before the agent gets an action turn. NOT narrate-without-call.",
+      "recoverable": false,
+      "edit": null,
+      "db_safe": null
+    },
+    {
+      "id": "model-selection-and-split",
+      "tag": "REASONING",
+      "tasks": ["8", "23"],
+      "root_cause": "Flight/passenger selection (8) and multi-reservation split aggregation + DB sequence (23). No general code or prose guard without overfitting to a task id/answer.",
+      "recoverable": false,
+      "edit": null,
+      "db_safe": null
+    }
+  ],
+  "edits_shipped": {
+    "E1": {
+      "file": "tools/tools.py",
+      "lever": "enriched return (returns not hashed => DB-safe)",
+      "detail": "_with_payment_summary(reservation, net) adds payment_summary key with exact charge/refund + copy-ready directive; applied to book_reservation, update_reservation_flights, update_reservation_baggages, cancel_reservation",
+      "verified_live_db": ["11->Refunded $5244", "12->$0", "17/22->$209 then $0 (gold DB)", "19->$169", "25->$375", "37->$1194 (business)"]
+    },
+    "E2": {
+      "file": "policy/policy.md section 4",
+      "lever": "prompt KNOWLEDGE",
+      "detail": "state the payment_summary figure, not pre-call estimate; worked example $5244 not $1748 (xN passengers)"
+    },
+    "E3": {
+      "file": "policy/policy.md sections 7, 8",
+      "lever": "prompt DECISION",
+      "detail": "trust system prices / do not undo a correct reservation on a disputed number; perform in-policy action vs transfer; search before flight change; no unsolicited compensation"
+    }
+  },
+  "preserved_from_parent": [
+    "payment auto-correct + dict normalization + payment_history re-sync (book_reservation)",
+    "baggage free-allowance recompute + total_price>0 payment skip (book/baggages)",
+    "cancel-flown guard (refuses flown-segment cancel; NQNU5R still refused)",
+    "policy sections 1-6"
+  ],
+  "protected_passing_tasks": [12, 17, 22],
+  "no_regression_basis": "E1 is strictly additive (one new return key; returns not hashed). E2/E3 only stop destructive/extra actions or redirect to the in-policy path; they command no new write on an already-correct task. All parent code guards re-verified no-op/gold on 12/17/22/37.",
+  "subagents_used": true
+}

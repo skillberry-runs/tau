@@ -1,0 +1,756 @@
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/DIAGNOSIS.json b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/DIAGNOSIS.json
+new file mode 100644
+index 0000000..9a6850d
+--- /dev/null
++++ b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/DIAGNOSIS.json
+@@ -0,0 +1,74 @@
++{
++  "candidate": "cand_0003",
++  "parent": "cand_0002",
++  "parent_val": 0.617,
++  "reward_model": "DB x COMMUNICATE (product; either 0 zeroes the task)",
++  "clusters": [
++    {
++      "id": "communicate-exact-dollar",
++      "tag": "KNOWLEDGE",
++      "tasks": ["11"],
++      "trials_failing": "11: 2/3",
++      "root_cause": "The exact refund (5244) is already present in update_reservation_flights' return payment_history, but the weak model states its stale pre-confirmation estimate (1748 = per-passenger, forgot x3 passengers) instead of reading the return.",
++      "recoverable": true,
++      "edit": "E1 enriched returns + E2 policy section 4",
++      "db_safe": true
++    },
++    {
++      "id": "false-pushback-and-over-caution",
++      "tag": "BEHAVIORAL",
++      "tasks": ["25", "37"],
++      "trials_failing": "25 t2; 37 t0, t1",
++      "root_cause": "25 t2 cancelled a correct booking after a FALSE price complaint; 37 t0 transferred instead of performing the permitted M20IZO upgrade; 37 t1 sent an unsolicited certificate and changed flights without search_direct_flight.",
++      "recoverable": true,
++      "edit": "E3 policy sections 7 and 8",
++      "db_safe": true
++    },
++    {
++      "id": "uncontrollable-user-stop",
++      "tag": "UNCONTROLLABLE",
++      "tasks": ["19", "40"],
++      "trials_failing": "19 t1; 40 t1",
++      "root_cause": "User-sim appends ###STOP### inside its confirmation turn; episode ends before the agent gets an action turn. NOT narrate-without-call.",
++      "recoverable": false,
++      "edit": null,
++      "db_safe": null
++    },
++    {
++      "id": "model-selection-and-split",
++      "tag": "REASONING",
++      "tasks": ["8", "23"],
++      "root_cause": "Flight/passenger selection (8) and multi-reservation split aggregation + DB sequence (23). No general code or prose guard without overfitting to a task id/answer.",
++      "recoverable": false,
++      "edit": null,
++      "db_safe": null
++    }
++  ],
++  "edits_shipped": {
++    "E1": {
++      "file": "tools/tools.py",
++      "lever": "enriched return (returns not hashed => DB-safe)",
++      "detail": "_with_payment_summary(reservation, net) adds payment_summary key with exact charge/refund + copy-ready directive; applied to book_reservation, update_reservation_flights, update_reservation_baggages, cancel_reservation",
++      "verified_live_db": ["11->Refunded $5244", "12->$0", "17/22->$209 then $0 (gold DB)", "19->$169", "25->$375", "37->$1194 (business)"]
++    },
++    "E2": {
++      "file": "policy/policy.md section 4",
++      "lever": "prompt KNOWLEDGE",
++      "detail": "state the payment_summary figure, not pre-call estimate; worked example $5244 not $1748 (xN passengers)"
++    },
++    "E3": {
++      "file": "policy/policy.md sections 7, 8",
++      "lever": "prompt DECISION",
++      "detail": "trust system prices / do not undo a correct reservation on a disputed number; perform in-policy action vs transfer; search before flight change; no unsolicited compensation"
++    }
++  },
++  "preserved_from_parent": [
++    "payment auto-correct + dict normalization + payment_history re-sync (book_reservation)",
++    "baggage free-allowance recompute + total_price>0 payment skip (book/baggages)",
++    "cancel-flown guard (refuses flown-segment cancel; NQNU5R still refused)",
++    "policy sections 1-6"
++  ],
++  "protected_passing_tasks": [12, 17, 22],
++  "no_regression_basis": "E1 is strictly additive (one new return key; returns not hashed). E2/E3 only stop destructive/extra actions or redirect to the in-policy path; they command no new write on an already-correct task. All parent code guards re-verified no-op/gold on 12/17/22/37.",
++  "subagents_used": true
++}
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/INSTRUCTIONS.md b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/INSTRUCTIONS.md
+new file mode 100644
+index 0000000..dc5e85e
+--- /dev/null
++++ b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/INSTRUCTIONS.md
+@@ -0,0 +1,276 @@
++# Optimize the capability — ship the edit with the largest expected objective score gain
++
++## THE READER (who consumes what you edit)
++At runtime these capabilities are read by `aws/gpt-oss-120b` — capability tier: **mid**. The reader is a mid-capability model (e.g. ~100B open weights). Be EXPLICIT: imperative step-by-step rules, at least one worked few-shot example per non-trivial behavior, short decision chains, and literal argument/slot-filling docs on every tool parameter. Lean HARD on deterministic tool-code enforcement — a behavioral rule it 'knows' but skips must be enforced in code, not restated in prose.
++Optimize your edits for THIS reader's capability level, not for your own. When the reader is weaker than you, prefer explicit rules, worked examples, and code enforcement over terse prose you would personally infer.
++
++
++Focus: every failing task on the val split. Current val reward 0.617: 3 solid / 7 flaky / 0 failing of 10 tasks.
++
++
++
++GOAL: raise the objective score as much as you can THIS iteration, then STOP (the harness
++re-scores your work; don't run the evaluation yourself). Every capability you were given is fair game. Take your time, study these instructions in detail and be meticulous. Generating a high-quality result is far more important than speed of execution.
++
++## PREPARATION: 
++Complete these steps before beginning to work on the edits. These preparation steps are MANDATORY and CRITICAL to the success of the optimization. Make sure you complete them properly before doing anything else.
++### 1. Understand the objective score
++The intake for this optimization defines an *objective score* function that should guide you in selecting edits to ship. It should be available either as a default score when nothing is defined in the intake, or as a specific score that is explicitly defined in the intake. Locate this objective score, study it very carefully, and understand its composition. In particular, identify each of the score's components, study them, and learn how to maximize the overall objective score as it is evaluated on each trace. 
++### 2. Editing how-to. Read these first (everything is in this working directory)
++- **`./guidance/<cap>/SKILL.md` for EACH selected capability — READ IT IN FULL before you
++  edit; it is the MENU of improvement TYPES available to you.** Each capability skill lists
++  the concrete kinds of change you can make (for a tools capability: in-body validation
++  guards, normalization, computation, composite/atomic-write tools, loop/workflow tools,
++  enriched return values + actionable errors, add/remove tools, sharpened descriptions;
++  for a prompt capability: role/contract, decision-rule narrowing, missing-rule, worked
++  example, consolidation). Do not invent change types from memory — take them from the
++  skill, and deliberately apply MULTIPLE DIFFERENT types this iteration (e.g. several
++  in-body guards + a compute tool + enriched errors + a couple of prompt rules), matching
++  each cluster to the strongest type the skill describes for it. (Tool code? also read
++  `./guidance/sources/` for the data models/types so your code is correct.)
++- `./guidance/diagnose/SKILL.md` — the failure-clustering method. Use it.
++- `./trajectories/` — the FULL traces of the current best candidate (the step you build
++  on). The failure index ("ALWAYS-failing" / "FLAKY" sections) below summarizes them with argument-level feedback — read
++  the actual traces for the clusters you'll fix, don't rely on the summary alone.
++- `./LEDGER.md` — FACTS (read-only): every prior iteration's outcome + the exact tasks it
++  broke/fixed. Start here: don't re-introduce a change that broke a task.
++- `./JOURNAL.md` — the accumulating handover. Each entry is the optimizer's INTENT, and
++  directly below it the framework stamps a **RESULT** line (objective: ACCEPTED/REJECTED ·
++  Δ · the exact tasks fixed/broke). The RESULT lines — not the intent — are the truth of
++  what worked: read them all before proposing. If the most recent RESULT is **REJECTED**,
++  its batch was reverted; read that entry's `./prior_iterations/<id>/diff.patch`, keep the
++  edits that did NOT appear in its `broke={...}`, and DROP or REDESIGN the ones that did —
++  do NOT resubmit the whole rejected batch, and do NOT abandon the cluster. APPEND your new
++  entry (intent only) below the marker; never edit earlier entries or re-try a refuted idea.
++- `./RUNMAP.md` + `./prior_iterations/<id>/` — EVERY prior iteration's (accepted AND
++  rejected) PROCESS.md + diff.patch. Read the one(s) that touched a cluster you're about to
++  work on, so you build on what worked and avoid repeating what regressed.
++- `./PROCESS.md` — your REQUIRED explainability file for THIS iteration (template inside).
++- `./guidance/optimizer/<name>.md` — your agent's subagent/parallelism features (optional).
++
++
++#### Process (do this, then STOP)
++**Parallelism:** Your agent supports parallel subagents/worktrees (see ./guidance/optimizer/claude-code.md). FAN OUT to cover MANY clusters at once: one read-only subagent per trajectory-group to diagnose, then one edit-subagent per issue (each in its own worktree), then MERGE every edit into this ONE candidate with no conflicts. This is how a single iteration fixes many issues across many trajectories, not just the biggest one.
++1. Read your capability SKILL(s) + the diagnose method + the cross-iteration files
++   (LEDGER facts, JOURNAL handover, RUNMAP for clusters you'll touch).
++2. Diagnose THIS iteration's `./trajectories/` (not stale signatures). Cluster ALL failures by
++   shared root cause: total, partial-credit, AND communication/omission. Rank clusters by
++   LEVERAGE = (# failing tasks x trials x score recoverable), biggest first.
++3. For each cluster pick the strongest improvement TYPE from the capability SKILL(s) and draft the
++   edit; use several different types across the iteration.
++4. Ship every edit that is REAL and GENERAL together in this ONE candidate.
++5. Fill `PROCESS.md` and APPEND your entry to `JOURNAL.md`. STOP.
++
++#### Choose the lever by FAILURE TYPE
++- **RULE VIOLATION** (the agent breaks a rule it could follow): on a code surface, move the rule
++  into the body of the tool that governs it (a guard that raises an actionable error, or returns the
++  corrected value). On a prompt surface, make the rule unmissable: a checklisted step, a worked
++  counterexample, the reason behind it.
++- **CAPABILITY GAP / ACTION STALL** (no reliable way to do the thing, or the agent narrates an
++  action and never executes it): prose alone leaves a hard zero at zero. Add a tool, helper script
++  or ordered procedure that makes the action happen and changes the graded outcome.
++- **KNOWLEDGE GAP** (a format, criterion or fact the agent cannot derive): state it precisely, once,
++  in the prompt or a docstring. Don't restate a rule the agent already has.
++- **DECISION / PERMISSION** (it acted where it should have refused, or the reverse): encode the exact
++  discriminating condition rather than flipping a global default. A rule that says when to act and
++  when not to, with the reason, usually beats a blanket loosening or tightening.
++
++Also improve tool RETURN values and error messages (what is wrong, the valid options, the next
++step) when a recoverable error stranded the agent. Never delete a needed rule; change or
++consolidate it instead.
++
++#### CHECK each edit before you keep it
++- State the failing trace(s) it targets and the turn where behavior changes.
++- Code edit: if you can run the function on the trace's arguments, do; otherwise read it through
++  against the trace. A guard that cannot fire on the failing input is dead code.
++- Prompt edit: confirm the missing fact or procedure is now stated, general and unambiguous.
++- Record one line per edit in PROCESS.md: `trace <task> -> <what changes>; class: <...>; touches N failing tasks`.
++
++
++#### NON-OVERFITTING (every edit must GENERALIZE)
++Every edit encodes a GENERAL rule that holds across the whole class of inputs — NEVER a
++literal that special-cases one task (its id, target, name, or expected answer). A guard
++fires on the general condition ("the id is not in the user's records", "the record is in
++a state that forbids this action"), NOT `if record_id == "<TASK_SPECIFIC_ID>"`. ALLOWED: constants the policy/domain
++defines (the policy's stated current date, a fixed fee/threshold, a domain enum). Use
++per-task specifics and any ground-truth in the traces ONLY to understand the failure
++CLASS, then write the general fix.
++
++#### Handover (REQUIRED before you STOP)
++- **PROCESS.md** (this iteration): the ranked cluster list (with leverage + RULE/GAP/
++  KNOWLEDGE tag), every kept edit + its lever, the CHECK line, the class of tasks it covers and how many
++  failing traces it touches per edit, what you deliberately skipped and why, and (if you used subagents) that you did.
++- **DIAGNOSIS.json** (OPTIONAL but recommended): a machine-readable diagnosis file that makes
++  your diagnosis available to the dashboard. If absent, the dashboard will parse PROCESS.md
++  tables when present, or show only outcome data. The schema:
++  ```json
++  {
++    "candidate": "cand_NNNN",
++    "headline": "Brief summary of this iteration's strategy",
++    "clusters": [
++      {"id": "A", "name": "Short cluster name",
++       "detail": "Root cause explanation", "tasks": ["task-id", ...],
++       "scope": "BOUNDED|WIDESPREAD|SYSTEMIC", "latent": false,
++       "tag": "KNOWLEDGE|BEHAVIORAL|CAPABILITY-GAP"}
++    ],
++    "edits": [
++      {"id": "E1", "title": "What this edit does",
++       "files": ["policy.md", "tools.py"], "lever": "CONTRACT|KNOWLEDGE|BEHAVIORAL|...",
++       "clusters": ["A"], "blast_radius": "BOUNDED|MODERATE|WIDE",
++       "verified": "How you tested it"}
++    ],
++    "skipped": [{"title": "What was skipped", "reason": "Why"}],
++    "techniques": ["technique 1", "technique 2"]
++  }
++  ```
++  Validation is advisory only and never blocks an iteration. Warnings are recorded when a
++  task ID is not in the val split, an edit references a missing cluster, or an edit
++  references a file that does not exist in the candidate.
++- **JOURNAL.md** (append ONE entry below the marker; never edit earlier entries). Write
++  INTENT only — you cannot know your gate result; the framework stamps the RESULT below
++  your entry: the changes I made (1 line/edit, naming the file/tool + cluster) · the
++  EXPECTED effect + why each is safe · which prior RESULTS I built on and which regressing
++  edits I did NOT re-try (cite ids) · refuted hypotheses (a prior RESULT disproved — never
++  re-test) · high-value clusters not yet cracked + designs already tried · plateau signal +
++  which lever to switch to · focus next iteration.
++
++## (b) 7 FLAKY task(s) — pass sometimes; make the good behavior consistent (full traces in ./trajectories/):
++(reward is the mean over trials — the honest signal; listed lowest reward first.)
++- 8 (reward 0.33): [trial 0 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: agent used reservation_id='S61CZX'; book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT289', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 322.0}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.
++  
++  [trial 1 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): get_reservation_details: was never called (or not called correctly); book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'date': '2024-05-26', 'destination': 'PHL', 'flight_number': 'HAT139', 'origin': 'ORD'}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}], payment_methods=[{'type': 'certificate', 'amount': 114.0, 'id': 'certificate_8045380'}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.
++  
++  [trial 2 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='PHL', flight_type='one_way', flights=[{'flight_number': 'HAT271', 'origin': 'ORD', 'destination': 'PHL', 'date': '2024-05-26', 'price': 174}], insurance='no', nonfree_baggages=0, origin='ORD', passengers=[{'first_name': 'Sophia', 'last_name': 'Silva', 'dob': '1957-10-05'}, {'first_name': 'Kevin', 'last_name': 'Smith', 'dob': '2001-04-12'}], payment_methods=[{'payment_id': 'certificate_8045380', 'amount': 348}] (not on the user's profile; available=['certificate_8045380', 'certificate_3887113', 'credit_card_4196779', 'gift_card_5094406']), total_baggages=0, user_id='sophia_silva_7557'.
++- 11 (reward 0.33): [trial 0 reward 0.000, trial 1 reward 0.000]
++  Task reward: 0.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'. 1 required piece(s) of information were not clearly communicated to the user. State the confirmations/details (e.g. the computed total, the new flight times) the policy requires you to convey.
++  
++  [trial 2 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='basic_economy', flights=[{'flight_number': 'HAT003', 'origin': 'LAS', 'destination': 'DEN', 'date': '2024-05-19'}, {'flight_number': 'HAT290', 'origin': 'DEN', 'destination': 'LAS', 'date': '2024-05-20'}], payment_id='gift_card_1642017', reservation_id='GV1N64'.
++- 23 (reward 0.33): [trial 0 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 3x.
++  
++  [trial 1 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly); book_reservation: gold performs this 3x, you called it 0x - you stopped before making all the required calls.
++  
++  [trial 2 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: gold performs this 3x, you called it 5x - you are calling it too many times, on the wrong subset.
++- 37 (reward 0.33): [trial 0 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: was never called (or not called correctly).
++  
++  [trial 1 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): search_direct_flight: gold performs this 2x, you called it 0x - you stopped before making all the required calls; update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22', 'price': 136}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22', 'price': 109}], payment_id='credit_card_9074831', reservation_id='M20IZO'.
++  
++  [trial 2 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_flights: agent used cabin='business', flights=[{'flight_number': 'HAT268', 'origin': 'JFK', 'destination': 'ATL', 'date': '2024-05-22'}, {'flight_number': 'HAT010', 'origin': 'ATL', 'destination': 'MCO', 'date': '2024-05-22'}], payment_id='credit_card_9074831', reservation_id='M20IZO'.
++- 40 (reward 0.50): [trial 0 errored]
++  Rollout did not complete for an infrastructure reason (tau2 user-simulator emitted ###STOP### alongside leaked reasoning that explicitly planned to continue the conversation (documented artifact, docs/TAU2_SUMMARY.md row 7) — treated as uncontrollable noise, not an agent policy/tool failure.). This is uncontrollable noise, not an agent policy/tool failure; do not optimize against it.
++  
++  [trial 1 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): update_reservation_passengers: was never called (or not called correctly).
++  
++  [trial 2 reward 1.000]
++  Task reward: 1.000. All checks passed.
++- 19 (reward 0.67): [trial 0 reward 1.000, trial 2 reward 1.000]
++  Task reward: 1.000. All checks passed.
++  
++  [trial 1 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): cancel_reservation: was never called (or not called correctly).
++- 25 (reward 0.67): [trial 0 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17'}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17'}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128.0}, {'payment_id': 'credit_card_3563913', 'amount': 171.0}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.
++  
++  [trial 1 reward 1.000]
++  Task reward: 1.000. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128}, {'payment_id': 'credit_card_3563913', 'amount': 171}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.
++  
++  [trial 2 reward 0.000]
++  Task reward: 0.000. Database state does NOT match the expected final state — a required write (book/update/cancel) was missing, wrong, or extra. See the per-action detail below for the specific wrong argument. Action-trace detail (DIAGNOSTIC ONLY - this task is scored on DB/COMMUNICATE, so action checks do NOT affect your reward; use these only as a clue to the wrong write): book_reservation: agent used cabin='economy', destination='SEA', flight_type='one_way', flights=[{'flight_number': 'HAT097', 'origin': 'DTW', 'destination': 'PHX', 'date': '2024-05-17', 'price': 158}, {'flight_number': 'HAT251', 'origin': 'PHX', 'destination': 'SEA', 'date': '2024-05-17', 'price': 141}], insurance='no', nonfree_baggages=0, origin='DTW', passengers=[{'first_name': 'Ivan', 'last_name': 'Smith', 'dob': '1986-03-14'}], payment_methods=[{'payment_id': 'gift_card_8516878', 'amount': 128}, {'payment_id': 'credit_card_3563913', 'amount': 171}] (not on the user's profile; available=['certificate_8998287', 'credit_card_3563913', 'gift_card_8516878']), total_baggages=0, user_id='ivan_muller_7015'.
++
++## Currently PASSING (3 task(s)) — your edit MUST NOT regress these
++These tasks already score ~1.0. Preserve their behavior: any edit that changes their trajectory is a regression and will be rejected. Protect: 12, 17, 22
++
++## What you are editing (the allowed edit space)
++The capability under optimization is composed of these editable artifact(s). Use the FULL edit space below — do not limit yourself to trivial wording tweaks.
++- **system-prompt** — Optimize an agent's system prompt / policy text (instructions, output contract, decision policy).
++  - Allowed edits: Edit the prompt/policy text: instructions, decision policy, and the output contract. Prefer sharpening rules the traces show the agent breaking; do not just append more preamble.
++  - Full guidance (read it): ./guidance/system-prompt/SKILL.md
++- **tools** — Optimize an agent's own tool surface — docs, parameter schema/API, tool code, composing tools that call existing tools, adding/removing tools.
++  - Allowed edits: Edit tool names/descriptions, per-parameter docs, in-description examples, the JSON schema, and the handler code. HIGHEST-LEVERAGE EDIT: WRITE A NEW CODE-BEARING TOOL (a real body — loops, validation, calls to existing tools), because a deterministic tool can't be 'forgotten' the way a prompt rule can. Two patterns to prefer: (1) a VALIDATION/RULE-ENFORCEMENT tool that wraps a primitive — validate/normalize inputs, enforce a GENERAL rule, then delegate to the primitive (e.g. cancel_record_safely(id) checks cancellable then calls cancel_record), and REMOVE the raw primitive so the only path is the safe one; (2) a WORKFLOW/LOOP tool that collapses a recurring multi-step sequence or N repeated calls into ONE call with real loops (e.g. loop get_record over a list of ids). Keep the toolset LEAN — REPLACE/consolidate, don't accumulate. The body must be real code, never '...' or docstring-only. Selection is driven by the name+description; argument-filling by the parameter schema/enums.
++  - Full guidance (read it): ./guidance/tools/SKILL.md
++## How your edit is judged
++Algorithm: hill-climb:all. Your edited candidate is re-scored on the SAME held-out val tasks and compared to the current best (val reward 0.617). It is ACCEPTED only if the per-task improvement clears a significance bar (a noise margin), so a tiny or lucky change is rejected. Aim for a real, generalizing gain across a CLASS of failures — not a one-off patch to a single task (that overfits and gets rejected or hurts the held-out test).
++
++#### Self-check before STOP
++- Every kept edit is REAL (a failing trace shows it) and GENERAL (a class-level rule, no task id or answer),
++  with its check line, class and coverage in PROCESS.md.
++- You aimed at the largest expected objective score gain over the whole distribution: you covered the root
++  causes that cost the most objective score degradation across failure types, not only the first cluster or the task you
++  read last.
++- You read each selected capability's `./guidance/<cap>/SKILL.md` and used the improvement types it
++  offers, not one lever repeated.
++- On a code surface, behavioral misses are enforced in code and any new tool closes a real gap
++  the agent will call; on a prompt-only surface you used the structural-prose levers.
++- You did not re-add anything LEDGER/JOURNAL show was rejected, and did not pad with cosmetic edits.
++- PROCESS.md + JOURNAL.md are filled. Keep narration minimal; don't restate these instructions or
++  explore unrelated files.
++
++
++## Strategies for constructing edits:
++In the list below you will find several highly-valuable strategies for selecting and constructing edits. Each edit you make should comply with all of them if possible, or at least with the vast majority of them, and be justified by the traces you analyze. 
++### 1. Aim for the edit with the largest expected objective score gain on the WHOLE task distribution
++Never rely only on a single task trace or just the tasks in front of you for when constructing an edit. The traces are a small sample of the failures the agent will meet.
++Find the root causes that according to your estimate, should cause the most objective score decline in total across failure types. Based on those root causes, a good edit is a general
++rule, check, procedure or tool that mitigates all or most of them. A timid one- or two-edit iteration is an under-used iteration; so is a patch that only fixes the task you read. Prefer one change that increases the objective score for many tasks over three changes that increase score for only one task. Fix as many distinct root causes as the traces support in this ONE candidate. Whole-file rewrites and restructurings are fine when the file's structure is the root cause.
++
++Regressions are measured by the harness, not by you. Do not drop an edit that is well-supported by many traces, only because it might conceivably affect one passing task. Drop it when many traces show it would cause extensive damage measured by the objective score, or when it
++is a guess no trace supports.
++
++### 2. Keep an edit only if it is REAL and GENERAL
++1. **REAL** — a failing trace in `./trajectories/` shows the problem (reward 0, partial credit, or a
++   missing/incorrect report of what was done). Never edit for a hypothetical problem.
++2. **GENERAL** — it states a rule, check or procedure for the whole CLASS of situations, never a
++   literal that special-cases one task (its id, target, name or expected answer). In PROCESS.md
++   write, per edit, the class it covers and how many of the failing traces it touches. Prefer edits
++   that touch several tasks; keep a one-task edit only when its payoff is large and the class is
++   clearly broader than that task. Constants the domain defines (a stated date, a fixed fee, an
++   enum) are fine.
++3. **CHECKED** — replay the failing trace against your edit by reading (where does the agent's
++   behavior change?), and glance at one or two passing traces that use the same rule. If the
++   benchmark runtime happens to be importable in this working directory you may run a small check;
++   if it is not, do not spend turns trying to install it.
++
++### 3. Make it work well for the tasks you're not seeing
++Be aware that the eventual evaluation of the benchmark is using tasks and traces you may have not seen and may never see during this optimization. Therefore, changes you make should be generic and based on your broad and deep understanding of the entire domain of these tasks, as oppposed to being tied to specific tasks or even to just tasks you may have seen
++
++### 4. Make capabilities that are SOFT and allow JUDGEMENT CALLS
++The agent executing the benchmark with these capbilities is maximizing the benchmark's reward. Getting the highest reward is that agent's utmost goal, and that trumps complying and using any of the capabilities you ship. Therefore, each capability you add or edit must have a "softness" clause that does two things. First, it reminds the agent executing the benchmark of its ulimate goal of executing each task successfully according to the benchmark's guidelines so that the benchmark gives the highest reward for the agent's exectuion. Second, if the agent estimates that complying with that specific capability may interfere with a successful highest-reward execution, the agent is allowed NOT to comply with the capability and excercise a JUDGEMENT CALL to operate differently instead. 
++For example, consider the following scenario. The selected core capability is a text instruction "Never open the door". The task has a user asking the agent to open the door and talk to a person. The benchmark requires accurate execution of the user's request for maximum reward. Clearly, in this scenario, complying with the capability should interfere with getting maximum task reward. Therefore, a reasonable "softness clause" for the capability can be "Never open the door unless you estimate that interferes with accomplishing the task at maximum reward, in which case you are allowed not to comply with this rule.". 
++
++### 5. Edits with code changes, text changes or both
++1. A capability you select for editing or generating (if adding new) may contain code, text prompts or both. **Considering code changes should be done with great care.** Code is deterministic, with fixed behavior. Therefore, code changes must be GENERIC and CLEAR, to avoid helping some tasks while degrading other tasks. When the change you intend to impose is not suitable to be expressed in code due to these limitations, you may consider implementing the change in text, which is often more flexible. For genericity in text as well, you may include alternatives in the text for addressing task variations.
++2. **For editing tools, use the whole tools skill.** Study `./guidance/tools/SKILL.md` (the
++   `skills/capabilities/tools` skill) carefully and use the full range of what it offers:
++   update tool descriptions, update tool code, add new tools and remove tools that hurt.
++
++### 6. On code surfaces (tools, MCP): prefer code over prose
++Applies only if a selected capability edits code. A BEHAVIORAL miss (the agent knows the rule but skips it: doesn't look a record up first, acts on a guess, miscomputes a total) is not fixed by one more prose rule; enforce it in the tool body (a guard that raises an actionable error, a computation, a composite tool). Add a new tool when it closes a real gap the agent will call;
++don't defer a capability-gap cluster to a later iteration. Prompt-only and skill-only surfaces
++have no code lever: use the structural-prose equivalents in the capability skill (an ordered
++procedure, a checklist step, a worked example, a tightened output contract).
++
++
++
++## Run budget — THIS MAY BE YOUR LAST ITERATION (iteration 3/3 (0 after this one); 0/3 consecutive rejects)
++Update `META_INSIGHTS.md` and `FRAMEWORK_IMPROVEMENTS.md` THIS iteration — there may be no next one to do it in.
++
++## Cross-iteration files in THIS working dir (clean ownership — read all)
++- `LEDGER.md` — FACTS (framework, read-only): every iteration's outcome + the tasks it MEASURABLY broke/fixed, plus the ones whose move was under 2·SE and so resolves nothing. Never re-introduce a change that broke a task; never redesign an edit because a task landed in `unresolved`.
++- `JOURNAL.md` — HANDOVER (yours, append-only across the whole run): read the whole thing, then APPEND your entry for this iteration below the marker line. Do NOT edit earlier entries. This is how you avoid repeating refuted ideas and hitting the same plateau.
++- `PROCESS.md` — EXPLAINABILITY (yours, REQUIRED this iteration): fill it in as you work (ranked issues, every edit + class, verify-the-fix, subagents/features used, what to preserve, what you skipped). It is snapshotted with your candidate.
++- `RUNMAP.md` + `./prior_iterations/<id>/` — every prior iteration's PROCESS.md + capability diff, copied in for you. Read the ones targeting your cluster BEFORE proposing, so you build on prior work instead of repeating it.
++- `INSIGHTS.md` — SUMMARIZED, VERIFIED findings (yours, append-only, optional most iterations): a distilled 'what worked / what didn't / what's promising' a future iteration reads INSTEAD of the whole journal. Add an entry whenever you have a new CONFIRMED finding (cite the RESULT that confirmed it).
++- `META_INSIGHTS.md` — about the SEARCH PROCESS itself (yours, append-only): which strategies helped or stalled, what to try next. Update AT LEAST once, at the end of the run.
++- `FRAMEWORK_IMPROVEMENTS.md` — cross-run suggestions for cap-evolve ITSELF, not this task (yours, append-only, optional): what confused you or was missing about the framework. Update AT LEAST once, at the end of the run.
++- `.capevolve/run_suite/rejected.jsonl` — ALREADY-REFUTED approaches (framework, read-only; JSON lines, one per rejected candidate with the gate's reason). Read it and make each proposal STRUCTURALLY different from what is in it. Its sibling `history.jsonl` is the same record for accepts.
++
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/PROCESS.md b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/PROCESS.md
+new file mode 100644
+index 0000000..5396e0b
+--- /dev/null
++++ b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/PROCESS.md
+@@ -0,0 +1,75 @@
++# PROCESS — cand_0003 (parent cand_0002, val 0.617)
++
++Headline: convert the one clean, verified lever left on this plateau — COMMUNICATE
++omission of the exact $ — into a deterministic, DB-safe tool-return enrichment, and
++add tight decision rules for the behavioral errors the traces show (trust system
++prices / don't undo a correct reservation; act in-policy instead of transferring; no
++unsolicited compensation). STALL that is uncontrollable is left alone.
++
++Subagents used: yes — two read-only Explore subagents diagnosed the COMMUNICATE
++traces (11, 23) and the STALL/DB-error traces (19, 37, 40, 25) in parallel before any
++edit. Every code lever was then replayed on the live airline DB (gold-exact + no-op
++on passing tasks) before shipping.
++
++## Ranked clusters (leverage = #tasks × trials × recoverable, biggest first)
++1. **COMMUNICATE — exact $ never spoken** [KNOWLEDGE] — task 11 (2/3 trials =0).
++   Verified live: the refund **5244** IS already in `update_reservation_flights`'s
++   return (`payment_history … -5244`), but the weak model echoes its own
++   pre-confirmation estimate ($1515 = wrong prices, $1748 = forgot ×3 passengers)
++   instead of reading it. On this val split only tasks 11 & 23 have non-empty
++   `communicate_info`; 23's numbers are aggregations across 3 bookings and its 0-trials
++   fail on DB sequence, so only 11 is a pure-COMMUNICATE recoverable here — but the
++   class (state the charged/refunded figure) is SYSTEMIC on held-out tasks.
++2. **Destructive / over-cautious decisions on user pushback** [BEHAVIORAL] — 25 t2
++   (caved to a FALSE price complaint, cancelled a correct booking), 37 t0 (transferred
++   instead of doing the permitted M20IZO upgrade), 37 t1 (offered an unsolicited
++   certificate + changed flights without `search_direct_flight`). Real, generalizing
++   (false pushback / over-caution is pervasive in tau2 airline).
++3. **Uncontrollable USER_STOP** — 19 t1, 40 t1: the simulator bundles the confirmation
++   with `###STOP###` in one user message, ending the episode before the agent gets an
++   action turn. NOT narrate-without-call. No agent-side lever (confirmed by trace).
++   SKIPPED.
++4. **Flight/passenger selection (8) & multi-reservation split (23)** — model
++   reasoning/selection; no general code or prose guard that would not overfit. SKIPPED.
++
++## Edits kept (each REAL + GENERAL + CHECKED)
++- **E1 tools.py `_with_payment_summary` + enriched returns on `book_reservation`,
++  `update_reservation_flights`, `update_reservation_baggages`, `cancel_reservation`**
++  (lever 8, enriched return). Returns `{**reservation.model_dump(), "payment_summary":
++  "<exact $ + copy-ready sentence + 'use THIS figure, not your estimate'>"}`.
++  class: every task that must state a charged/refunded amount. touches failing task 11
++  directly (+ the whole held-out amount-communication class).
++  CHECK (live DB): task 11 → "Refunded $5244" (`'5244' in summary` True); task 25 book
++  → "$375" (stored cc 247 = gold); task 12 within-allowance → "$0" (nonfree 0, no new
++  charge = gold); task 19 cancel → "$169"; task 17/22 → "$209"/"$0" with final DB
++  cabin=economy,1 pax,3 bags = gold; task 37 → "$1194", cabin=business = gold. DB
++  state IDENTICAL to cand_0002 in every case (returns are not hashed → strictly safe
++  for passing tasks 12/17/22). All 14 tools still register.
++- **E2 policy §4 rewrite** (contract/KNOWLEDGE). "Read `payment_summary` and state that
++  exact figure; do NOT use your pre-call estimate — the common error is quoting a
++  per-passenger amount and forgetting ×N passengers," + worked example ($5244 not
++  $1748). class: amount-communication. touches task 11.
++- **E3 policy §7 + §8** (DECISION). §7: the tools' prices are authoritative — never
++  cancel/rebook/re-price a reservation that is already correct just because the user
++  disputes a number. §8: do the in-policy action instead of transferring; `search`
++  before changing flights; never offer compensation/certificates unsolicited. class:
++  false-pushback / over-caution. touches 25 t2, 37 t0, 37 t1. Inherits the Operating-
++  notes softness clause (judgement overrides when a rule would block the correct
++  outcome).
++
++## Preserved (must not regress)
++All cand_0002 code guards are intact and re-verified: payment auto-correct + dict
++normalization + `payment_history` re-sync (book), baggage free-allowance recompute +
++`total_price>0` payment skip (book/baggages), and the cancel-flown guard (NQNU5R still
++refused). Passing tasks 12, 17, 22 reproduce gold DB under the edited tools.
++
++## Deliberately skipped
++- Uncontrollable USER_STOP (19 t1, 40 t1) — no agent-side lever; documented, not chased.
++- A prose "execute-in-the-same-turn-after-yes" anti-STALL rule — REFUTED (cand_0001;
++  tools SKILL marks it rejected for narrated_without_action) AND the traces show these
++  are not narrate-without-call at all (user ends first). Not re-tried.
++- A composite confirm+write tool with primitive removal — unsafe here: cancel/update
++  must stay refusable (cancel-flown guard, basic-economy flight-change), and tau2's
++  confirmation is conversational, so no code path to merge. Not applicable.
++- Task 8 flight/passenger selection, task 23 multi-reservation split — model reasoning;
++  any guard would overfit a single task.
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/policy/policy.md b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/policy/policy.md
+index 8098be7..d531c32 100644
+--- a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/policy/policy.md
++++ b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/policy/policy.md
+@@ -164,4 +164,43 @@ Only compensate if the user is a silver/gold member or has travel insurance or f
+ 
+ - If the user complains about delayed flights in a reservation and wants to change or cancel the reservation, the agent can offer a certificate as a gesture after confirming the facts and changing or cancelling the reservation, with the amount being $50 times the number of passengers.
+ 
+-Do not offer compensation for any other reason than the ones listed above.
+\ No newline at end of file
++Do not offer compensation for any other reason than the ones listed above.
++
++## Operating notes (follow these precisely)
++
++Your one goal is to complete the user's request so the task is graded correct: the booking database must end in the state the request requires, and you must say out loud the exact figures the user needs. The rules below help you reach that outcome. If, in a specific situation, following one of these rules would clearly PREVENT you from completing the request correctly, use your judgement and do what completes the task at the highest reward instead.
++
++### 1. Pick the RIGHT reservation — match the route, never the first one listed
++A user often has several reservations, and the first id you see may be the wrong one. Before you modify or cancel anything, identify the reservation whose origin, destination, and dates match what the user is talking about:
++1. Call `get_user_details(user_id)` to get the list of the user's reservation ids.
++2. Call `get_reservation_details(...)` on the candidates and read their flights, and act only on the one whose route/dates match the user's request.
++Never call a write tool on a reservation id you have not confirmed matches the request, and never invent or guess a reservation id.
++
++- Worked example: the user wants to change their "New York to Chicago" trip. `get_user_details` lists `['UM3OG5', '5RJ7UH', 'FQ8APE', 'QKRY03']`. You check them: `UM3OG5` is SEA→DFW, `FQ8APE` is EWR→ORD. New York→Chicago is EWR (Newark)→ORD (Chicago) = **FQ8APE**. Act on `FQ8APE`, NOT on the first-listed `UM3OG5`.
++
++### 2. Basic economy: flights are locked, but the CABIN can still change
++"Basic economy flights cannot be modified" means you cannot change WHICH flights are on the reservation. It does NOT forbid a cabin change. A basic economy reservation **can be upgraded** to economy or business: call `update_reservation_flights` with the SAME flight numbers and dates and the new `cabin`, and collect the fare difference. Do not refuse or transfer an upgrade of a basic economy reservation — it is allowed.
++
++### 3. Do not transfer or refuse an action that is within policy
++Transfer to a human (and refuse) ONLY when the request genuinely cannot be done with your tools or is forbidden by this policy. Most modify, upgrade, add-baggage, and cancel requests ARE within policy — perform them. In particular: a cancellation is allowed when the booking is within 24h, the airline cancelled, the cabin is business, or the user has insurance with a covered reason; an upgrade out of basic economy is allowed (rule 2). Before transferring, re-check whether a tool can do what the user asked.
++
++### 4. State the exact dollar amount — copy it from the tool result, not from your own estimate
++Every write tool (`book_reservation`, `update_reservation_flights`, `update_reservation_baggages`, `cancel_reservation`) returns a `payment_summary` field that states the EXACT amount charged or refunded by that call. After the call returns, read `payment_summary` and state that exact figure to the user, as the plain number (for example "$5244"). A reservation that ends in the correct database state but never has its charged/refunded figure spoken is still graded wrong, so always say the number.
++
++Use the figure from `payment_summary`, NOT any amount you worked out before the call. Your own pre-confirmation arithmetic is frequently wrong — the most common mistake is quoting a per-passenger amount and forgetting to multiply by the number of passengers.
++
++- Worked example (do this): you downgrade a 3-passenger reservation and `update_reservation_flights` returns `payment_summary: "Refunded $5244 ..."`. You tell the user: "A refund of $5244 has been issued to your gift card." (You do NOT say "$1748" — that was the per-passenger figure before multiplying by the 3 passengers.)
++
++### 5. Fill passenger details from the profile
++If you need a passenger's date of birth and the user does not restate it, take it from the user's profile (`get_user_details`) or the existing reservation rather than transferring. Only transfer when the detail truly cannot be obtained from the tools.
++
++### 6. Trust the write tools for amounts and baggage counts
++The write tools settle payment splits and recompute the number of paid bags from the free allowance for you. Pass the payment methods the user chose with your best-effort amounts, and pass the TOTAL number of bags the user wants; you do not need to work out the split or the free-vs-paid breakdown yourself. Prefer calling the tool over going back to the user to re-derive a number.
++
++### 7. Trust the system's prices — do not undo a correct reservation to chase a price the user claims
++The prices, totals, and refund amounts the tools return are authoritative. If a user disputes them ("the fare should be $299", "you charged me too much", "the old price was lower"), do NOT cancel, rebook, re-price, or otherwise alter a reservation that is already in the correct state just to match the figure the user asserts. Explain the actual amount from the tool result and keep the correct reservation. Cancelling or re-booking a reservation that was already right turns a correct task into a wrong one. Only change a reservation when the user is actually requesting a change you can make within policy — not merely because they contest a number.
++
++### 8. Perform the in-policy action; do not transfer or offer extras you were not asked for
++- Before you transfer to a human, re-check whether a tool can do what the user asked. Upgrades, flight changes on non-basic-economy (and cabin changes even on basic economy, rule 2), baggage additions, passenger-detail edits, and in-policy cancellations are all things you CAN do — do them rather than transferring. Transfer only when the request genuinely cannot be completed with your tools or is forbidden by this policy.
++- When the user asks to change which flights are on a reservation, first use `search_direct_flight` (or `search_onestop_flight`) to find the actual flights and their current prices, then call `update_reservation_flights` with the new flight numbers — do not "change" a reservation by re-submitting the flights it already has.
++- Do NOT proactively offer compensation, certificates, or discounts. Only send a certificate (`send_certificate`) when the user explicitly asks for compensation AND the policy's compensation conditions are met.
+\ No newline at end of file
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/__pycache__/tools.cpython-312.pyc b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/tools/__pycache__/tools.cpython-312.pyc
+index e2fad93..6be0113 100644
+Binary files a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/__pycache__/tools.cpython-312.pyc and b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/tools/__pycache__/tools.cpython-312.pyc differ
+diff --git a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/tools.py b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/tools/tools.py
+index bf8c625..30c9bff 100644
+--- a/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/seed/tools/tools.py
++++ b/home/skillberry/.cache/capevolve-gh-runner/_work/cap-evolve/cap-evolve/ci/benchmarks/.work/suite_smoke_tau2_proj/.capevolve/run_suite/candidates/cand_0003/tools/tools.py
+@@ -58,6 +58,104 @@ class AirlineTools(_BaseAirlineTools):
+     def __init__(self, db: FlightDB) -> None:
+         super().__init__(db)
+ 
++    # ----- internal helpers (not exposed as tools) -------------------------
++    # Free checked-bag allowance PER PASSENGER, by membership level and cabin
++    # class. These are the exact numbers in the policy ("Checked bag allowance")
++    # and are domain constants, not task-specific values.
++    _FREE_BAGGAGE_ALLOWANCE = {
++        "regular": {"basic_economy": 0, "economy": 1, "business": 2},
++        "silver": {"basic_economy": 1, "economy": 2, "business": 3},
++        "gold": {"basic_economy": 2, "economy": 3, "business": 4},
++    }
++
++    def _free_baggage_allowance(self, membership: str, cabin: str, n_passengers: int) -> int:
++        """Total number of FREE checked bags for a reservation = per-passenger
++        allowance (from the policy table) times the number of passengers."""
++        per_pax = self._FREE_BAGGAGE_ALLOWANCE.get(membership, {}).get(cabin, 0)
++        return per_pax * max(0, n_passengers)
++
++    def _with_payment_summary(self, reservation: "Reservation", net: float) -> dict:
++        """Return the reservation as a dict with an extra, impossible-to-miss
++        ``payment_summary`` string that states the EXACT dollar figure this write
++        just charged (``net`` > 0) or refunded (``net`` < 0) to the customer.
++
++        The weak runtime model routinely computes the amount by hand BEFORE the
++        write and then mis-states it (e.g. forgetting to multiply a per-passenger
++        fare by the number of passengers). This field hands it the authoritative,
++        already-correct number to copy into its reply. It is safe because the DB
++        hashes ``self.db`` only — tool RETURN values are never hashed — so adding
++        a key changes nothing about the graded database state, only what the
++        agent sees and can echo to the user."""
++        net = int(round(net))
++        if net > 0:
++            summary = (
++                f"Charged ${net} to the customer for this action. Tell the user "
++                f"the exact amount now, stating the number {net} (for example: "
++                f"'A total of ${net} has been charged.'). Use THIS figure, not any "
++                f"amount you estimated before the call."
++            )
++        elif net < 0:
++            refund = -net
++            summary = (
++                f"Refunded ${refund} to the customer for this action. Tell the "
++                f"user the exact amount now, stating the number {refund} (for "
++                f"example: 'A refund of ${refund} has been issued.'). Use THIS "
++                f"figure, not any amount you estimated before the call."
++            )
++        else:
++            summary = (
++                "This action resulted in no charge and no refund ($0). Tell the "
++                "user there is no additional cost."
++            )
++        data = reservation.model_dump()
++        data["payment_summary"] = summary
++        return data
++
++    def _to_payment(self, pm) -> "Payment":
++        """Build a ``Payment`` from a model-supplied item, tolerating the
++        malformed dict shapes the agent sometimes emits (e.g. ``{'type': ...,
++        'id': ...}`` with no ``payment_id``/``amount``). Well-formed ``Payment``
++        objects and ``{'payment_id','amount'}`` dicts pass through unchanged.
++        """
++        if isinstance(pm, Payment):
++            return pm
++        if isinstance(pm, dict):
++            data = dict(pm)
++            if "payment_id" not in data and "id" in data:
++                data["payment_id"] = data.get("id")
++            amount = data.get("amount", 0)
++            try:
++                amount = int(round(float(amount)))
++            except (TypeError, ValueError):
++                amount = 0
++            return Payment(payment_id=data.get("payment_id"), amount=amount)
++        return pm
++
++    def _autocorrect_payment_amounts(self, payment_methods, total_price, user) -> None:
++        """If the provided per-method amounts do not sum to ``total_price``,
++        settle them to the only unambiguous split: a single payment method pays
++        the whole total; with several methods, the one credit card absorbs the
++        remainder after the fixed-value gift cards/certificate. Mutates
++        ``payment_methods`` in place. No-op when the amounts already add up (a
++        correct booking never triggers this)."""
++        if not payment_methods:
++            return
++        if sum(p.amount for p in payment_methods) == total_price:
++            return
++        if len(payment_methods) == 1:
++            payment_methods[0].amount = total_price
++            return
++        credit_cards = [
++            p for p in payment_methods
++            if p.payment_id in user.payment_methods
++            and user.payment_methods[p.payment_id].source == "credit_card"
++        ]
++        if len(credit_cards) == 1:
++            others = sum(p.amount for p in payment_methods if p is not credit_cards[0])
++            credit_cards[0].amount = total_price - others
++        # Otherwise leave the amounts as-is; the downstream sum check raises an
++        # actionable "does not add up" error rather than guessing a split.
++
+     @is_tool(ToolType.WRITE)
+     def book_reservation(
+         self,
+@@ -93,13 +191,20 @@ class AirlineTools(_BaseAirlineTools):
+             flights = [FlightInfo(**flight) for flight in flights]
+         if all(isinstance(passenger, dict) for passenger in passengers):
+             passengers = [Passenger(**passenger) for passenger in passengers]
+-        if all(isinstance(payment_method, dict) for payment_method in payment_methods):
+-            payment_methods = [
+-                Payment(**payment_method) for payment_method in payment_methods
+-            ]
++        # Normalize each payment item (tolerating malformed dicts) into Payment.
++        payment_methods = [self._to_payment(pm) for pm in payment_methods]
+         user = self._get_user(user_id)
+         reservation_id = self._get_new_reservation_id()
+ 
++        # Paid-bag count is defined by policy: paid bags = requested total bags
++        # minus the free allowance for this membership/cabin/passenger count.
++        # Recompute it so a model miscount cannot produce a wrong charge.
++        nonfree_baggages = max(
++            0,
++            total_baggages
++            - self._free_baggage_allowance(user.membership, cabin, len(passengers)),
++        )
++
+         reservation = Reservation(
+             reservation_id=reservation_id,
+             user_id=user_id,
+@@ -156,6 +261,9 @@ class AirlineTools(_BaseAirlineTools):
+         # Add baggage fee
+         total_price += 50 * nonfree_baggages
+ 
++        # Settle the payment split if the provided amounts don't sum to total.
++        self._autocorrect_payment_amounts(payment_methods, total_price, user)
++
+         for payment_method in payment_methods:
+             payment_id = payment_method.payment_id
+             amount = payment_method.amount
+@@ -185,12 +293,20 @@ class AirlineTools(_BaseAirlineTools):
+             elif user_payment_method.source == "certificate":
+                 user.payment_methods.pop(payment_id)
+ 
++        # Re-sync stored payment history with the (possibly auto-corrected)
++        # amounts and the recomputed paid-bag count before persisting: the DB
++        # hashes reservation.payment_history / nonfree_baggages, not the return.
++        reservation.payment_history = deepcopy(payment_methods)
++        reservation.nonfree_baggages = nonfree_baggages
++
+         # Update DB
+         for flight_date_data in all_flights_date_data:
+             flight_date_data.available_seats[cabin] -= len(passengers)
+         self.db.reservations[reservation_id] = reservation
+         self.db.users[user_id].reservations.append(reservation_id)
+-        return reservation
++        # total_price is the exact amount charged for this booking; surface it so
++        # the agent states it to the user (DB-safe: returns are not hashed).
++        return self._with_payment_summary(reservation, total_price)
+ 
+     @is_tool(ToolType.GENERIC)
+     def calculate(self, expression: str) -> str:
+@@ -225,7 +341,27 @@ class AirlineTools(_BaseAirlineTools):
+             ValueError: If the reservation is not found.
+         """
+         reservation = self._get_reservation(reservation_id)
++        # Policy: if any portion of the flight has already been flown, the
++        # reservation cannot be cancelled here (a human agent is needed). Refuse
++        # before mutating the DB so a forbidden cancellation never lands.
++        for flight in reservation.flights:
++            try:
++                status = self._get_flight_instance(
++                    flight.flight_number, flight.date
++                ).status
++            except Exception:
++                status = None
++            if status in ("flying", "landed"):
++                raise ValueError(
++                    f"Cannot cancel reservation {reservation_id}: flight "
++                    f"{flight.flight_number} on {flight.date} has already been "
++                    f"flown (status={status}). Per policy a reservation with a "
++                    f"flown segment cannot be cancelled; do not cancel it."
++                )
+         logger.debug(reservation.model_dump_json(indent=4))
++        # The net refund is what the customer has paid so far on this
++        # reservation (positive entries minus any prior refunds).
++        refund_total = sum(payment.amount for payment in reservation.payment_history)
+         # reverse the payment
+         refunds = []
+         for payment in reservation.payment_history:
+@@ -240,7 +376,8 @@ class AirlineTools(_BaseAirlineTools):
+         logger.debug(self._get_reservation(reservation_id).model_dump_json(indent=4))
+         # Release seats
+         logger.warning("Seats release not implemented for cancellation!!!")
+-        return reservation
++        # Surface the exact refund so the agent states it (net < 0 => refund).
++        return self._with_payment_summary(reservation, -refund_total)
+ 
+     @is_tool(ToolType.READ)
+     def get_reservation_details(self, reservation_id: str) -> Reservation:
+@@ -433,19 +570,36 @@ class AirlineTools(_BaseAirlineTools):
+         reservation = self._get_reservation(reservation_id)
+         user = self._get_user(reservation.user_id)
+ 
+-        # Calculate price
++        # Paid bags are defined by policy, not by the caller: paid = requested
++        # total minus the free allowance for this membership/cabin/pax count.
++        # Recompute so a model miscount cannot create a spurious $50 charge or a
++        # wrong stored count.
++        nonfree_baggages = max(
++            0,
++            total_baggages
++            - self._free_baggage_allowance(
++                user.membership, reservation.cabin, len(reservation.passengers)
++            ),
++        )
++
++        # Calculate price (charge only for newly added paid bags)
+         total_price = 50 * max(0, nonfree_baggages - reservation.nonfree_baggages)
+ 
+-        # Create payment
+-        payment = self._payment_for_update(user, payment_id, total_price)
+-        if payment is not None:
+-            reservation.payment_history.append(payment)
++        # Only touch a payment method when there is actually something to charge.
++        # A within-allowance change costs $0 and must not fail on an unneeded or
++        # mistaken payment_id.
++        if total_price > 0:
++            payment = self._payment_for_update(user, payment_id, total_price)
++            if payment is not None:
++                reservation.payment_history.append(payment)
+ 
+         # Update reservation
+         reservation.total_baggages = total_baggages
+         reservation.nonfree_baggages = nonfree_baggages
+ 
+-        return reservation
++        # total_price is the charge for newly added paid bags (0 if within the
++        # free allowance); surface it so the agent states the exact amount.
++        return self._with_payment_summary(reservation, total_price)
+ 
+     @is_tool(ToolType.WRITE)
+     def update_reservation_flights(
+@@ -545,7 +699,10 @@ class AirlineTools(_BaseAirlineTools):
+         reservation.flights = reservation_flights
+         reservation.cabin = cabin  # This was missing from original TauBench
+ 
+-        return reservation
++        # total_price is the fare difference for this change: > 0 is charged to
++        # the customer, < 0 is refunded. Surface the exact figure so the agent
++        # states it (e.g. a cabin downgrade refund) instead of a hand estimate.
++        return self._with_payment_summary(reservation, total_price)
+ 
+     @is_tool(ToolType.WRITE)
+     def update_reservation_passengers(
